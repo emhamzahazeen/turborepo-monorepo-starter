@@ -1,0 +1,18 @@
+ls:
+  .dir: kebab-case
+  .js: kebab-case
+  .ts: kebab-case
+  .tsx: kebab-case
+  .test.tsx: kebab-case
+  .test.ts: kebab-case
+  .test.js: kebab-case
+  .json: kebab-case
+  .d.ts: kebab-case
+  .pug: kebab-case
+  .html: kebab-case
+ignore:
+  - .git
+  - node_modules
+  - dist
+  - .husky
+  - .idea

@@ -1,0 +1,14 @@
+{
+  "output": "./dist/copy-paste-report",
+  "minLines": 3,
+  "threshold": 9.59,
+  "reporters": ["html", "console", "badge"],
+  "absolute": true,
+  "gitignore": true,
+  "ignore": ["**/package.json"],
+  "reportersOptions": {
+    "badge": {
+      "path": "./dist/copy-paste-report/badge.svg"
+    }
+  }
+}

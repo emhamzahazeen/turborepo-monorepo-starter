@@ -1,0 +1,55 @@
+{
+  "name": "@sequoa/root",
+  "version": "0.0.0",
+  "private": true,
+  "workspaces": [
+    "projects/*",
+    "tools/**"
+  ],
+  "scripts": {
+    "commit": "cz",
+    "prepare": "husky install",
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "clean:all": "npm run clean:dist && npm run clean:node_modules && npm run clean:turbo",
+    "clean:node_modules": "find . -name 'node_modules' -print0 | xargs -r0 -- rm -r",
+    "clean:dist": "find ./{tools/**,projects/**}/ -name 'dist' -print0 | xargs -r0 -- rm -r",
+    "clean:turbo": "find ./{tools/**,projects/**}/ -name '.turbo' -print0 | xargs -r0 -- rm -r",
+    "copy:paste:detection": "jscpd ./{tools,projects}/** -c .jscpdrc",
+    "lint": "turbo run lint && npm run lint:global",
+    "lint:fix": "turbo run lint:fix && npm run lint:global:fix",
+    "lint:config": "eslint *.js",
+    "lint:dependencies": "depcruise --config dependency-cruiser-config.js .",
+    "lint:global": "npm run lint:config -- --cache --cache-location './dist/.eslintcache' && npm run prettier:global:check && npm run lint:ci:structure && npm run lint:dependencies",
+    "lint:global:fix": "npm run lint:config -- --fix && npm run prettier:global:fix",
+    "lint:ci:structure": "ls-lint",
+    "prettier:global:check": "prettier --ignore-path ./.gitignore --check \"./**/*.{yml,yaml,json,md}\"",
+    "prettier:global:fix": "prettier --ignore-path ./.gitignore --write \"./**/*.{json,yml,yaml,md}\""
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "~17.1.2",
+    "@commitlint/config-conventional": "~17.1.0",
+    "@emhamzahazeen/eslint-config-base": "*",
+    "@emhamzahazeen/eslint-config-base-prettier": "*",
+    "@emhamzahazeen/eslint-config-jest": "*",
+    "@emhamzahazeen/eslint-config-node": "*",
+    "@emhamzahazeen/eslint-config-tailwindcss": "*",
+    "@emhamzahazeen/eslint-config-typescript": "*",
+    "@emhamzahazeen/eslint-config-vue": "*",
+    "@jscpd/badge-reporter": "3.4.5",
+    "@ls-lint/ls-lint": "1.11.2",
+    "commitizen": "4.2.5",
+    "commitlint-config-jira": "1.6.4",
+    "commitlint-plugin-jira-rules": "1.6.4",
+    "cz-conventional-changelog": "3.3.0",
+    "dependency-cruiser": "11.16.1",
+    "jscpd": "3.4.5",
+    "husky": "8.0.1",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "packageManager": "npm@8.18.0"
+}

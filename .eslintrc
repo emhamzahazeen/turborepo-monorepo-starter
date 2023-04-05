@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "extends": ["@emhamzahazeen/eslint-config-base", "@emhamzahazeen/eslint-config-base-prettier"]
+}
