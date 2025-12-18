@@ -1,0 +1,9 @@
+services:
+  directus:
+    image: directus/directus:10.10.5
+    ports:
+      - 8055:8055
+    volumes:
+      - ./extensions:/directus/extensions
+    env_file:
+      - .env.stage

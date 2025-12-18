@@ -1,0 +1,12 @@
+{
+  "name": "@aikata/tools-helpers",
+  "version": "0.0.0",
+  "description": "Utility scripts for Aikata project",
+  "main": "find-event-category.js",
+  "scripts": {
+    "find-category": "node find-event-category.js"
+  },
+  "devDependencies": {
+    "axios": "1.11.0"
+  }
+}
