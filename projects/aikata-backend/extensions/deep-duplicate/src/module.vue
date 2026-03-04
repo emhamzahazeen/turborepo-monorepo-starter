@@ -1,5 +1,5 @@
 <template>
-	<private-view title="Deep Duplicate Extension">
+	<private-view>
 		<deep-copy-event />
 	</private-view>
 </template>

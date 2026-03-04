@@ -3,20 +3,19 @@ import { ref, computed, onMounted } from 'vue';
 import { useItems, useApi } from '@directus/extensions-sdk';
 
 const api = useApi();
-const collectionRef = ref('events');
+const collectionRef = ref('locations');
 
-const eventDomain = ref(null);
+const fromEventDomain = ref(null);
 const eventOptions = ref([]);
 
-const newEventDomain = ref(null);
-const newEventName = ref(null);
+const toEventDomain = ref(null);
 
 const isLoadingEvents = ref(false);
 const isSubmitting = ref(false);
 const message = ref('');
 const isError = ref(false);
 
-const isDisabled = computed(() => eventDomain.value == null || newEventDomain.value == null || newEventName.value == null || isSubmitting.value || isLoadingEvents.value);
+const isDisabled = computed(() => fromEventDomain.value == null || toEventDomain.value == null || isSubmitting.value || isLoadingEvents.value);
 
 const query = {
   fields: ref(['domain', 'name']),
@@ -54,7 +53,7 @@ async function onDuplicate() {
   try {
     const { data: events } = await api.get('/items/events', {
       params: {
-        filter: { domain: { _eq: eventDomain.value } },
+        filter: { domain: { _eq: fromEventDomain.value } },
         deep: {
           categories: {
             _limit: -1
@@ -140,8 +139,7 @@ async function onDuplicate() {
       }
     });
 
-    const newEvent = { domain: newEventDomain.value, name: newEventName.value, ...events['data'][0]};
-    console.log(newEvent);
+
 
     const { data } = await api.post('/items/events', newEvent);
     console.log(data);
@@ -159,18 +157,18 @@ async function onDuplicate() {
 <template>
   <div class="content">
     <div class="title">
-      <h3 class="type-title">Duplicate Event:</h3>
+      <h3 class="type-title">Duplicate Location:</h3>
     </div>
     <div class="row">
       <div style="display: flex; gap: 12px; flex-direction: column">
         <div class="field-label type-label">
           <span class="field-name">
-            <div class="v-text-overflow">Select Event</div>
+            <div class="v-text-overflow">Select Event(To Copy From)</div>
           </span>
         </div>
         <div>
           <VSelect
-            v-model="eventDomain"
+            v-model="fromEventDomain"
             :items="eventOptions"
             label="Select Event"
             :disabled="isSubmitting || isLoadingEvents"
@@ -181,36 +179,23 @@ async function onDuplicate() {
     <div class="row">
       <div style="display: flex; gap: 12px; flex-direction: column">
         <div class="field-label type-label">
-            <span class="field-name">
-              <div class="v-text-overflow">Enter New Event Domain</div>
-            </span>
-        </div>
-        <div>
-          <VInput
-            v-model="newEventDomain"
-            label="Enter New Event Domain Name"
-            :disabled="isSubmitting"
-          />
-        </div>
-      </div>
-      <div style="display: flex; gap: 12px; flex-direction: column">
-        <div class="field-label type-label">
           <span class="field-name">
-            <div class="v-text-overflow">Enter New Event Name</div>
+            <div class="v-text-overflow">Select Event(To Copy To)</div>
           </span>
         </div>
         <div>
-          <VInput
-            v-model="newEventName"
-            label="Select New Event Name"
-            :disabled="isSubmitting"
+          <VSelect
+            v-model="toEventDomain"
+            :items="eventOptions"
+            label="Select Event"
+            :disabled="isSubmitting || isLoadingEvents"
           />
         </div>
       </div>
     </div>
     <div class="row">
       <VButton :loading="isSubmitting" :disabled="isDisabled" @click="onDuplicate">
-        Duplicate Event (with acts, timetables, location and categories)
+        Duplicate Location
       </VButton>
     </div>
 
